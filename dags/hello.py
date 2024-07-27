@@ -3,7 +3,7 @@ from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 
 default_args = {
-    'owner': 'datamasterylab.com',
+    'owner': 'datazoom',
     'start_date': datetime(2024, 1, 25),
     'catchup': False
 }
