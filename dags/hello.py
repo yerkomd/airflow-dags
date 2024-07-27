@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'datazoom',
-    'start_date': datetime(2024, 1, 25),
+    'start_date': datetime(2024, 7, 26),
     'catchup': False
 }
 
