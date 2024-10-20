@@ -1,0 +1,54 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: s3-call-file
+  namespace: spark-operator
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "melgary/pyspark-final:3.5.3"
+  imagePullPolicy: Always
+  mainApplicationFile: s3a://mytest-bucket/dags/{{params.job}} #taxi.py
+  sparkVersion: "3.5.3"
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "512m"
+    labels:
+      version: 3.5.3
+    serviceAccount: spark-operator-spark
+    env:
+      - name: AWS_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: s3-credentials
+            key: AWS_ACCESS_KEY_ID
+      - name: AWS_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: s3-credentials
+            key: AWS_SECRET_ACCESS_KEY
+  executor:
+    cores: 1
+    instances: 3
+    memory: "512m"
+    labels:
+      version: 3.3.1
+    env:
+      - name: AWS_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: s3-credentials
+            key: AWS_ACCESS_KEY_ID
+      - name: AWS_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: s3-credentials
+            key: AWS_SECRET_ACCESS_KEY
+  sparkConf:
+    "spark.hadoop.fs.s3a.access.key": "0MX338U4I68G7LZHZEW6"
+    "spark.hadoop.fs.s3a.secret.key": "DWqm9o3LYtV2YwnDXhaNZ8RAck6KAbXoODylkgNU"
+    "spark.hadoop.fs.s3a.endpoint": "http://192.168.1.151"
+    "spark.hadoop.fs.s3a.path.style.access": "true"
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"
