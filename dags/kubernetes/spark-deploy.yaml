@@ -31,7 +31,7 @@ spec:
             key: AWS_SECRET_ACCESS_KEY
   executor:
     cores: 1
-    instances: 3
+    instances: 1
     memory: "512m"
     labels:
       version: 3.5.3
