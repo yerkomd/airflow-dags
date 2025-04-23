@@ -2,7 +2,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: s3-call-file
-  namespace: spark-operator
+  namespace: space-int-de
 spec:
   type: Python
   pythonVersion: "3"
@@ -47,8 +47,8 @@ spec:
             name: s3-credentials
             key: AWS_SECRET_ACCESS_KEY
   sparkConf:
-    "spark.hadoop.fs.s3a.access.key": "0MX338U4I68G7LZHZEW6"
-    "spark.hadoop.fs.s3a.secret.key": "DWqm9o3LYtV2YwnDXhaNZ8RAck6KAbXoODylkgNU"
-    "spark.hadoop.fs.s3a.endpoint": "http://192.168.1.151"
+    "spark.hadoop.fs.s3a.access.key": "29S27JQLBYGTQHMJ60OX"
+    "spark.hadoop.fs.s3a.secret.key": "crKCWqBKUgubxNuHErdCG3cj0k84QZBDm3L2BEgN"
+    "spark.hadoop.fs.s3a.endpoint": "http://192.168.1.152"
     "spark.hadoop.fs.s3a.path.style.access": "true"
     "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"
