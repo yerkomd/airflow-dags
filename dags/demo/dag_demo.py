@@ -7,9 +7,9 @@ from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.cncf.kubernetes.hooks.kubernetes import KubernetesHook
-from airflow.utils.dates import days_ago
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+import pendulum  # <- nuevo
 
 k8s_hook = KubernetesHook(conn_id='kubernetes_config')
 
@@ -20,7 +20,7 @@ k8s_hook = KubernetesHook(conn_id='kubernetes_config')
 default_args = {
     'owner': 'DataWarehouse',
     'depends_on_past': False,
-    'start_date': days_ago(1),
+    #'start_date': days_ago(1),
     'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -33,9 +33,11 @@ default_args = {
 
 dag = DAG(
     'dag_demo',
-    start_date=days_ago(1),
+    #start_date=days_ago(1),
     default_args=default_args,
-    schedule_interval='0 5 * * *',
+    schedule='0 5 * * *',   # <- usar 'schedule' en Airflow 3
+    catchup=False,          # <- evita backfill
+    max_active_runs=1,      # <- aquí, no en default_args
     tags=['canonical'],
     template_searchpath='/opt/airflow/dags/repo/dags/kubernetes/'
 )

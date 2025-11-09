@@ -30,7 +30,7 @@ default_args = {
 
 dag = DAG(
     'spark-s3-example-parameters',
-    start_date=days_ago(1),
+    #start_date=days_ago(1),
     default_args=default_args,
     schedule='0 5 * * *',   # <- usar 'schedule' en Airflow 3
     catchup=False,          # <- evita backfill
