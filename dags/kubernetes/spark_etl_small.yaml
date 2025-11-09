@@ -1,0 +1,51 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: {{params.dag_name}}
+  namespace: space-int-de
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "melgary/pyspark:3.5.3"
+  imagePullPolicy: Always
+  mainApplicationFile: s3a://s3-de-dl/framework/{{params.job}} #dag-spark-code.py  
+  arguments: ["{{ params.fecha }}"]
+  py_files: [s3a://data-lakehouse/framework/utils/datahandler.py]           # El archivo ZIP con los módulos que Spark debe distribuir
+  sparkVersion: "3.5.3"
+  driver:
+    cores: 1
+    coreLimit: "1000m"
+    memory: "512m"
+    labels:
+      version: 3.5.3
+    serviceAccount: spark-operator-spark
+  executor:
+    cores: 1
+    instances: 1
+    memory: "512m"
+    labels:
+      version: 3.5.3
+  sparkConf:
+    "spark.hadoop.fs.s3a.access.key": "ARPU6A8181P72CHJW29U"
+    "spark.hadoop.fs.s3a.secret.key": "0mygPlwVKmVATVrJq6kkldWGUJT5Ctq0YDCKBEQw"
+    "spark.hadoop.fs.s3a.endpoint": "http://192.168.1.151/"
+    "spark.hadoop.fs.s3a.path.style.access": "true"
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"  
+    "spark.eventLog.compress": "true"
+    "spark.dynamicAllocation.enabled": "true"  # Habilitar la asignación dinámica de ejecutores
+    "spark.dynamicAllocation.minExecutors": "1"  # Número mínimo de ejecutores a 2
+    "spark.dynamicAllocation.maxExecutors": "10"  # Número máximo de ejecutores a 10
+    "spark.dynamicAllocation.initialExecutors": "1"  # Número inicial de ejecutores a 5
+    "spark.executor.memoryOverhead": "512m"  # Asignación adicional de memoria para overhead del ejecutor
+    "spark.executor.cores": "1"  # Cada ejecutor tendrá 1 núcleo
+    "spark.executor.memory": "1g"  # Cada ejecutor tendrá 2.3 GB de memoria
+    "spark.driver.memoryOverhead": "256m"  # Asignación de memoria adicional para el driver
+    "spark.sql.shuffle.partitions": "100"  # Número de particiones para las operaciones de shuffle, ajustable
+    "spark.default.parallelism": "10"  # Ajustar el paralelismo a 5, basado en el número de instancias de ejecutores
+  cleanup:
+    enabled: true       # Habilita la limpieza automática
+    deleteOnCompletion: true  # Elimina recursos al completarse (éxito o fallo)
+  restartPolicy:
+    type: Never  # Evita reintentos y permite que cleanup funcione correctamente
+    terminationGracePeriodSeconds: 0  # Eliminación inmediata (opcional)
