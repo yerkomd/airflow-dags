@@ -5,13 +5,13 @@ from datetime import timedelta, datetime
 from airflow import DAG
 # Operators; we need this to operate!
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
-from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-from airflow.providers.cncf.kubernetes.hooks.kubernetes import KubernetesHook
-from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+#from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+#from airflow.providers.cncf.kubernetes.hooks.kubernetes import KubernetesHook
+from airflow.operators.empty import EmptyOperator 
+#from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import pendulum  # <- nuevo
 
-k8s_hook = KubernetesHook(conn_id='kubernetes_config')
+#k8s_hook = KubernetesHook(conn_id='kubernetes_config')
 
 # Esto es un cambio al codigo. 
 
