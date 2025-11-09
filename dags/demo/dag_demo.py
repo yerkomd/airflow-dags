@@ -16,6 +16,7 @@ import pendulum  # <- nuevo
 # Esto es un cambio al codigo. 
 
 #name_job = 'source_code/cstmr/spk_std_customer_paymentmethod_snc.py'
+START_DATE = pendulum.datetime(2025, 11, 1, tz="UTC")
 
 default_args = {
     'owner': 'DataWarehouse',
