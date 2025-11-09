@@ -44,8 +44,8 @@ dag = DAG(
 )
 
 # Establecer dependencias
-flw_start = DummyOperator(task_id="start")
-flw_end = DummyOperator(task_id="finish")
+flw_start = EmptyOperator(task_id="start")
+flw_end = EmptyOperator(task_id="finish")
 
 fecha_ayer_str = (datetime.utcnow() - timedelta(days=1)).strftime("%Y%m%d")
 
