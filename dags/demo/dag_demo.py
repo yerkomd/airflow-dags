@@ -33,7 +33,7 @@ default_args = {
 
 dag = DAG(
     'dag_demo',
-    #start_date=days_ago(1),
+    start_date=START_DATE,
     default_args=default_args,
     schedule='0 5 * * *',   # <- usar 'schedule' en Airflow 3
     catchup=False,          # <- evita backfill
@@ -46,8 +46,7 @@ dag = DAG(
 flw_start = DummyOperator(task_id="start")
 flw_end = DummyOperator(task_id="finish")
 
-fecha_ayer = (datetime.now() - timedelta(days=1))
-fecha_ayer_str = fecha_ayer.strftime("%Y%m%d")
+fecha_ayer_str = (datetime.utcnow() - timedelta(days=1)).strftime("%Y%m%d")
 
 # Lista de tablas y fechas para replicar
 tablas = [        
@@ -73,7 +72,7 @@ for idx, tabla in enumerate(tablas):
 
     task = SparkKubernetesOperator(
         task_id=task_id,
-        namespace='space-int-de',
+        namespace='date-data-engineering',
         application_file=file_yaml,
         kubernetes_conn_id='kubernetes_default',
         do_xcom_push=False,
