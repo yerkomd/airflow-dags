@@ -2,7 +2,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: {{params.dag_name}}
-  namespace: space-int-de
+  namespace: data-engineering
 spec:
   type: Python
   pythonVersion: "3"
@@ -27,8 +27,8 @@ spec:
     labels:
       version: 3.5.3
   sparkConf:
-    "spark.hadoop.fs.s3a.access.key": "ARPU6A8181P72CHJW29U"
-    "spark.hadoop.fs.s3a.secret.key": "0mygPlwVKmVATVrJq6kkldWGUJT5Ctq0YDCKBEQw"
+    "spark.hadoop.fs.s3a.access.key": "RB8C8ATL99MUAU9P3PVO"
+    "spark.hadoop.fs.s3a.secret.key": "Q1XCTE3eNa5kCwEZr6WMasoRsVFuVpB0p5CmCzOt"
     "spark.hadoop.fs.s3a.endpoint": "http://192.168.1.151/"
     "spark.hadoop.fs.s3a.path.style.access": "true"
     "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"  
