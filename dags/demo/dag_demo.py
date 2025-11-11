@@ -51,7 +51,7 @@ fecha_ayer_str = (datetime.utcnow() - timedelta(days=1)).strftime("%Y%m%d")
 
 # Lista de tablas y fechas para replicar
 tablas = [        
-    {"task_id":"spk_demo01","path_py": "source_code/demo/spk_demo01.py","fecha": fecha_ayer,"size": "small"}
+    {"task_id":"spk_demo01","path_py": "source_code/demo/spk_demo01.py","fecha": fecha_ayer_str,"size": "small"}
 ]
 
 flw_start
