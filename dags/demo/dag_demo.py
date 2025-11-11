@@ -43,7 +43,7 @@ dag = DAG(
     template_searchpath='/opt/airflow/dags/repo/dags/kubernetes/'
 )
 
-# Establecer dependencias
+# Establecer dependencias se realizo el cambio
 flw_start = EmptyOperator(task_id="start")
 flw_end = EmptyOperator(task_id="finish")
 
